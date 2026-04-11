@@ -1,0 +1,32 @@
+section {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;       /* hidden sections cannot intercept clicks */
+    position: relative;
+    z-index: 0;
+}
+
+section.visible {
+    opacity: 1;
+    pointer-events: auto;      /* only the current visible section is clickable */
+    z-index: 1;
+}
+
+.progress-bar-active {
+    transition: width 0.5s ease-in-out;
+}
+
+/* Fix radio button visuals if needed */
+.multiple-choice-option {
+    cursor: pointer;
+}
+
+.multiple-choice-option input[type="radio"],
+.multiple-choice-option input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.multiple-choice-option:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+}
