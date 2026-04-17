@@ -37,10 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── Email via Web3Forms ───────────────────────────────────────────
-    // Get your free access key at https://web3forms.com  (enter flyluckyfire@gmail.com)
-    const WEB3FORMS_KEY = '3a860945-e3cc-4774-895c-f8574524a6e7';
-
+    // ── Email via Vercel serverless + Gmail SMTP ─────────────────────
     async function sendQuizEmail() {
         // Clean, deduplicate, and merge answers for questions with the same base label
         const merged = {};
@@ -69,13 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `Zeitstempel: ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}`;
 
         try {
-            await fetch('https://api.web3forms.com/submit', {
+            await fetch('/api/send-email', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    access_key: WEB3FORMS_KEY,
-                    subject:    'Neuer Quiz-Abschluss – Wrinkles Quiz',
-                    from_name:  'Wrinkles Quiz',
+                    subject: 'Neuer Quiz-Abschluss – Wrinkles Quiz',
                     message,
                 }),
             });
