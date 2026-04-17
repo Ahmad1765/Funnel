@@ -42,57 +42,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const WEB3FORMS_KEY = '3a860945-e3cc-4774-895c-f8574524a6e7';
 
     async function sendQuizEmail() {
-        // Filter out raw internal IDs (e.g. mc-8251a4a8) and empty answers
-        const cleanedAnswers = Object.entries(quizAnswers).filter(([q, a]) =>
-            a && !/^[a-z]{2,3}-[0-9a-f]{6,}$/i.test(q)
-        );
+        // Clean, deduplicate, and merge answers for questions with the same base label
+        const merged = {};
+        for (const [q, a] of Object.entries(quizAnswers)) {
+            if (!a || /^[a-z]{2,3}-[0-9a-f]{6,}$/i.test(q)) continue;
+            // Strip trailing digits appended by quiz builder (e.g. "Question?2" → "Question?")
+            const baseQ = q.replace(/\s*\d+$/, '').trim();
+            if (merged[baseQ]) {
+                const parts = merged[baseQ].split(', ');
+                if (!parts.includes(a)) parts.push(a);
+                merged[baseQ] = parts.join(', ');
+            } else {
+                merged[baseQ] = a;
+            }
+        }
 
-        const rows = cleanedAnswers
-            .map(([q, a]) => `
-                <tr>
-                    <td style="padding:10px 14px;border-bottom:1px solid #f0f0f0;color:#555;font-size:14px;width:45%;vertical-align:top;">${q}</td>
-                    <td style="padding:10px 14px;border-bottom:1px solid #f0f0f0;color:#111;font-size:14px;font-weight:600;vertical-align:top;">${a}</td>
-                </tr>`)
-            .join('');
+        const lines = Object.entries(merged)
+            .map(([q, a]) => `  ${q}\n  → ${a}`)
+            .join('\n\n');
 
-        const html = `
-        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:620px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e4e4e4;">
-            <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px 36px;">
-                <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;">Quiz Completed</h1>
-                <p style="margin:6px 0 0;color:#a0aec0;font-size:14px;">A new submission has arrived — Wrinkles Quiz</p>
-            </div>
-
-            <div style="padding:28px 36px 8px;">
-                <p style="margin:0 0 20px;color:#444;font-size:15px;">
-                    A user has completed the quiz. Here are their answers:
-                </p>
-                <table style="width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid #e8e8e8;">
-                    <thead>
-                        <tr style="background:#f7f8fa;">
-                            <th style="padding:10px 14px;text-align:left;font-size:12px;text-transform:uppercase;color:#888;letter-spacing:0.8px;font-weight:600;">Question</th>
-                            <th style="padding:10px 14px;text-align:left;font-size:12px;text-transform:uppercase;color:#888;letter-spacing:0.8px;font-weight:600;">Answer</th>
-                        </tr>
-                    </thead>
-                    <tbody>${rows}</tbody>
-                </table>
-            </div>
-
-            <div style="padding:20px 36px 28px;">
-                <p style="margin:0;color:#aaa;font-size:12px;">
-                    Submitted on ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}
-                </p>
-            </div>
-        </div>`;
+        const message =
+            `✅ Ein neuer Quiz-Abschluss!\n` +
+            `${'─'.repeat(40)}\n\n` +
+            `${lines}\n\n` +
+            `${'─'.repeat(40)}\n` +
+            `Zeitstempel: ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}`;
 
         try {
             await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify({
-                    access_key:  WEB3FORMS_KEY,
-                    subject:     'Neuer Quiz-Abschluss – Wrinkles Quiz',
-                    from_name:   'Wrinkles Quiz',
-                    message:     html,
+                    access_key: WEB3FORMS_KEY,
+                    subject:    'Neuer Quiz-Abschluss – Wrinkles Quiz',
+                    from_name:  'Wrinkles Quiz',
+                    message,
                 }),
             });
         } catch (err) {
