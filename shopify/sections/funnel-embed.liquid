@@ -1,0 +1,54 @@
+{{ 'funnel-embed.css' | asset_url | stylesheet_tag }}
+
+<div class="funnel-embed-wrapper">
+  <iframe
+    id="funnel-iframe"
+    src="{{ section.settings.funnel_url }}"
+    width="100%"
+    height="{{ section.settings.initial_height }}px"
+    frameborder="0"
+    scrolling="no"
+    allowtransparency="true"
+    title="Quiz Funnel"
+  ></iframe>
+</div>
+
+<script>
+  window.addEventListener('message', function (event) {
+    if (event.data && event.data.type === 'funnel-resize') {
+      var iframe = document.getElementById('funnel-iframe');
+      if (iframe) {
+        iframe.style.height = (event.data.height + 20) + 'px';
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Funnel Embed",
+  "settings": [
+    {
+      "type": "url",
+      "id": "funnel_url",
+      "label": "Funnel URL",
+      "info": "Paste your Vercel funnel URL here (e.g. https://your-funnel.vercel.app)"
+    },
+    {
+      "type": "range",
+      "id": "initial_height",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Initial iframe height",
+      "default": 700
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funnel Embed"
+    }
+  ]
+}
+{% endschema %}

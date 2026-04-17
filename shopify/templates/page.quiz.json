@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "quiz": {
+      "type": "quiz-funnel",
+      "settings": {}
+    }
+  },
+  "order": ["quiz"]
+}

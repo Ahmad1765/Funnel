@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Email via Web3Forms ───────────────────────────────────────────
     // Get your free access key at https://web3forms.com  (enter flyluckyfire@gmail.com)
-    const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+    const WEB3FORMS_KEY = 'https://jj4kky-c2.myshopify.com/pages/contact';
 
     async function sendQuizEmail() {
         const answersText = Object.entries(quizAnswers)
