@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Final loader: email answers then go to Shopify store
                 setTimeout(async () => {
                     await sendQuizEmail();
-                    window.location.href = 'https://jj4kky-c2.myshopify.com/';
+                    window.location.href = 'https://www.dr-melaxin.nl';
                 }, timeout);
             } else {
                 setTimeout(() => goNext(), timeout);

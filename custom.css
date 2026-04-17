@@ -1,32 +1,153 @@
-section {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    opacity: 0;
-    pointer-events: none;       /* hidden sections cannot intercept clicks */
-    position: relative;
-    z-index: 0;
+/* ── dr-melaxin.nl Brand Variables ───────────────────────────── */
+:root {
+  --primary:                   #8b4069;   /* purple/mauve */
+  --secondary:                 #108474;   /* teal */
+  --accent-color:              #dd1d1d;   /* red CTA */
+  --color-pageBackgroundColor: #ffffff;
+  --kit-Font-Primary:          'Poppins', sans-serif;
+  --kit-Font-Secondary:        'Poppins', sans-serif;
+  --kit-Font-Tetriary:         'Poppins', sans-serif;
+  --progress-color:            #8b4069;
+  --progress-background-color: #f0e4eb;
 }
 
-section.visible {
-    opacity: 1;
-    pointer-events: auto;      /* only the current visible section is clickable */
-    z-index: 1;
+/* ── Global font override ─────────────────────────────────────── */
+body,
+input,
+textarea,
+select,
+button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* ── Headings ──────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  color: #121239;
+}
+
+/* ── CTA / submit buttons ─────────────────────────────────────── */
+button[type="submit"],
+.heyflow-cta,
+[data-blocktype="button"] button,
+.button-block button {
+  background-color: #dd1d1d !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  border: none !important;
+  transition: background-color 0.2s ease, transform 0.15s ease !important;
+}
+
+button[type="submit"]:hover,
+.heyflow-cta:hover,
+[data-blocktype="button"] button:hover,
+.button-block button:hover {
+  background-color: #b81818 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── Progress bar ─────────────────────────────────────────────── */
+.progress-bar {
+  background-color: #f0e4eb !important;
+  border-radius: 999px !important;
 }
 
 .progress-bar-active {
-    transition: width 0.5s ease-in-out;
+  background-color: #8b4069 !important;
+  border-radius: 999px !important;
+  transition: width 0.5s ease-in-out;
 }
 
-/* Fix radio button visuals if needed */
+/* ── Multiple choice options ─────────────────────────────────── */
 .multiple-choice-option {
-    cursor: pointer;
+  cursor: pointer;
+  border-radius: 12px !important;
+  border: 2px solid #e8d4e0 !important;
+  transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+}
+
+.multiple-choice-option:hover {
+  transform: translateY(-2px);
+  border-color: #8b4069 !important;
+  background-color: #fdf6f9 !important;
+}
+
+.multiple-choice-option input[type="radio"]:checked ~ *,
+.multiple-choice-option input[type="checkbox"]:checked ~ *,
+.multiple-choice-option.selected,
+.multiple-choice-option[data-selected="true"] {
+  background-color: #f0e4eb !important;
+  border-color: #8b4069 !important;
 }
 
 .multiple-choice-option input[type="radio"],
 .multiple-choice-option input[type="checkbox"] {
-    cursor: pointer;
+  cursor: pointer;
+  accent-color: #8b4069;
 }
 
-.multiple-choice-option:hover {
-    transform: translateY(-2px);
-    transition: transform 0.2s;
+/* ── Page / form background ──────────────────────────────────── */
+body,
+[data-id="heyflow-main"],
+form[data-id="heyflow-form"] {
+  background-color: #ffffff !important;
+  color: #121239 !important;
+}
+
+/* ── Section transitions ─────────────────────────────────────── */
+section {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  position: relative;
+  z-index: 0;
+}
+
+section.visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+header,
+#template-header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #f0e4eb !important;
+}
+
+/* ── Links ───────────────────────────────────────────────────── */
+a {
+  color: #8b4069 !important;
+}
+
+a:hover {
+  color: #108474 !important;
+}
+
+/* ── Input fields ────────────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  border-radius: 12px !important;
+  border: 1.5px solid #e8d4e0 !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  border-color: #8b4069 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(139, 64, 105, 0.15) !important;
+}
+
+/* ── Secondary color accent (teal) ──────────────────────────── */
+[style*="var(--secondary)"] {
+  color: #108474 !important;
 }
