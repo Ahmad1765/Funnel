@@ -16,9 +16,9 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { subject, message } = req.body || {};
+    const { subject, html, message } = req.body || {};
 
-    if (!message) {
+    if (!html && !message) {
         return res.status(400).json({ error: 'Missing message' });
     }
 
@@ -27,7 +27,7 @@ module.exports = async function handler(req, res) {
             from: `"Wrinkles Quiz" <${process.env.GMAIL_USER}>`,
             to: process.env.GMAIL_USER,
             subject: subject || 'Neuer Quiz-Abschluss – Wrinkles Quiz',
-            text: message,
+            html: html || `<pre>${message}</pre>`,
         });
 
         return res.status(200).json({ success: true });

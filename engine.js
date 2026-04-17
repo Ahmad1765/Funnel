@@ -39,31 +39,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Email via Vercel serverless + Gmail SMTP ─────────────────────
     async function sendQuizEmail() {
-        // Clean, deduplicate, and merge answers for questions with the same base label
-        const merged = {};
-        for (const [q, a] of Object.entries(quizAnswers)) {
-            if (!a || /^[a-z]{2,3}-[0-9a-f]{6,}$/i.test(q)) continue;
-            // Strip trailing digits appended by quiz builder (e.g. "Question?2" → "Question?")
-            const baseQ = q.replace(/\s*\d+$/, '').trim();
-            if (merged[baseQ]) {
-                const parts = merged[baseQ].split(', ');
-                if (!parts.includes(a)) parts.push(a);
-                merged[baseQ] = parts.join(', ');
-            } else {
-                merged[baseQ] = a;
-            }
-        }
+        // Filter raw internal IDs, keep all other entries as-is (no merging —
+        // numbered labels like "Question?2" are different questions, not duplicates)
+        const entries = Object.entries(quizAnswers).filter(([q, a]) =>
+            a && !/^[a-z]{2,3}-[0-9a-f]{6,}$/i.test(q) && !/\[format\]/.test(q)
+        );
 
-        const lines = Object.entries(merged)
-            .map(([q, a]) => `  ${q}\n  → ${a}`)
-            .join('\n\n');
+        // Strip trailing digits from label for display only
+        const rows = entries.map(([q, a]) => {
+            const label = q.replace(/\s*\d+$/, '').trim();
+            return `
+                <tr>
+                    <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#555;font-size:14px;width:48%;vertical-align:top;line-height:1.5;">${label}</td>
+                    <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#111;font-size:14px;font-weight:600;vertical-align:top;line-height:1.5;">${a}</td>
+                </tr>`;
+        }).join('');
 
-        const message =
-            `✅ Ein neuer Quiz-Abschluss!\n` +
-            `${'─'.repeat(40)}\n\n` +
-            `${lines}\n\n` +
-            `${'─'.repeat(40)}\n` +
-            `Zeitstempel: ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}`;
+        const html = `<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:24px;background:#f4f4f5;font-family:'Segoe UI',Arial,sans-serif;">
+  <div style="max-width:620px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+
+    <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px 36px;">
+      <h1 style="margin:0 0 6px;color:#fff;font-size:22px;font-weight:700;">Quiz Completed</h1>
+      <p style="margin:0;color:#a0aec0;font-size:14px;">Wrinkles Quiz &mdash; neue Einreichung</p>
+    </div>
+
+    <div style="padding:28px 36px 0;">
+      <p style="margin:0 0 20px;color:#444;font-size:15px;">Ein Nutzer hat den Quiz abgeschlossen. Hier sind die Antworten:</p>
+      <table style="width:100%;border-collapse:collapse;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;">
+        <thead>
+          <tr style="background:#f7f8fa;">
+            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Frage</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Antwort</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+
+    <div style="padding:20px 36px 28px;margin-top:8px;">
+      <p style="margin:0;color:#bbb;font-size:12px;">
+        Eingereicht am ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>`;
 
         try {
             await fetch('/api/send-email', {
@@ -71,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     subject: 'Neuer Quiz-Abschluss – Wrinkles Quiz',
-                    message,
+                    html,
                 }),
             });
         } catch (err) {
