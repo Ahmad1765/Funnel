@@ -178,6 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress();
                 checkLoader(nextSec);
 
+                // Notify parent iframe to resize after transition is fully done
+                if (window.parent !== window) {
+                    window.parent.postMessage(
+                        { type: 'funnel-resize', height: document.body.offsetHeight },
+                        '*'
+                    );
+                }
+
                 isTransitioning = false;
             }, 300);
         }

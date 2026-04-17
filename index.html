@@ -2173,28 +2173,15 @@ window.TriplePixelData={TripleName:"2f4a18-f3.myshopify.com",ver:"2.17",plat:"SH
 	  </div>
 	</noscript><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ea1eeac5e6ed1e0',t:'MTc3NTgyNjAwMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="engine.js"></script>
 <script>
-  // Auto-resize: send document height to parent Shopify page
-  (function () {
-    var debounceTimer;
-
-    function sendHeight() {
-      // Wait until after the 300ms transition so hidden sections are display:none
-      // then measure full body height (includes header + progress bar outside sections).
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(function () {
-        var h = document.body.offsetHeight;
-        window.parent.postMessage({ type: 'funnel-resize', height: h }, '*');
-      }, 350);
+  // Initial resize on load — subsequent resizes are triggered by engine.js
+  window.addEventListener('load', function () {
+    if (window.parent !== window) {
+      window.parent.postMessage(
+        { type: 'funnel-resize', height: document.body.offsetHeight },
+        '*'
+      );
     }
-
-    window.addEventListener('load', sendHeight);
-
-    if (window.MutationObserver) {
-      new MutationObserver(sendHeight).observe(document.body, {
-        childList: true, subtree: true, attributes: true
-      });
-    }
-  })();
+  });
 </script>
 </body>
 </html>
