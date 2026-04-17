@@ -104,7 +104,6 @@ button[type="submit"]:hover,
 .multiple-choice-option {
   cursor: pointer;
   border-radius: 8px !important;
-  border: 1.5px solid #e8d4e0 !important;
   background-color: #ffffff !important;
   transition:
     border-color 0.2s,
@@ -161,14 +160,19 @@ section {
     transform 0.3s ease-in-out;
   opacity: 0;
   pointer-events: none;
-  position: relative;
-  z-index: 0;
+  /* NOTE: no position/z-index here — adding them creates a stacking context
+     that traps the flatpickr calendar popup and hides it behind the header */
 }
 
 section.visible {
   opacity: 1;
   pointer-events: auto;
-  z-index: 1;
+}
+
+/* ── Date picker calendar (flatpickr) ────────────────────────── */
+/* Ensure the calendar popup is always above all page elements */
+.flatpickr-calendar {
+  z-index: 99999 !important;
 }
 
 /* ── Header ─────────────────────────────────────────────────── */
