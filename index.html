@@ -2178,14 +2178,11 @@ window.TriplePixelData={TripleName:"2f4a18-f3.myshopify.com",ver:"2.17",plat:"SH
     var debounceTimer;
 
     function sendHeight() {
-      // Wait until after transition completes (engine.js uses 300ms),
-      // then measure only the visible section to avoid double-counting.
+      // Wait until after the 300ms transition so hidden sections are display:none
+      // then measure full body height (includes header + progress bar outside sections).
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(function () {
-        var visibleSection = document.querySelector('section.visible');
-        var h = visibleSection
-          ? visibleSection.offsetHeight
-          : document.body.offsetHeight;
+        var h = document.body.offsetHeight;
         window.parent.postMessage({ type: 'funnel-resize', height: h }, '*');
       }, 350);
     }
