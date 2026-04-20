@@ -20,7 +20,7 @@
     if (event.data && event.data.type === 'funnel-resize') {
       var iframe = document.getElementById('funnel-iframe');
       if (iframe) {
-        iframe.style.height = (event.data.height + 40) + 'px';
+        iframe.style.height = event.data.height + 'px';
       }
     }
   });

@@ -2177,7 +2177,7 @@ window.TriplePixelData={TripleName:"2f4a18-f3.myshopify.com",ver:"2.17",plat:"SH
   window.addEventListener('load', function () {
     if (window.parent !== window) {
       window.parent.postMessage(
-        { type: 'funnel-resize', height: document.body.offsetHeight },
+        { type: 'funnel-resize', height: document.documentElement.scrollHeight },
         '*'
       );
     }

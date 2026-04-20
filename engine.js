@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Notify parent iframe to resize after transition is fully done
                 if (window.parent !== window) {
                     window.parent.postMessage(
-                        { type: 'funnel-resize', height: document.body.offsetHeight },
+                        { type: 'funnel-resize', height: document.documentElement.scrollHeight },
                         '*'
                     );
                 }
