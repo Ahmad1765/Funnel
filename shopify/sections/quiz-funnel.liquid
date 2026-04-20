@@ -28,17 +28,22 @@
 
 <style>
   /* Hide theme chrome — quiz takes full viewport */
-  header, footer, nav,
-  .site-header, .site-footer,
   #shopify-section-header,
   #shopify-section-footer,
   #shopify-section-announcement-bar,
-  .shopify-section:not(#shopify-section-quiz) {
+  #shopify-section-top-bar,
+  .site-header,
+  .site-footer,
+  .announcement-bar {
     display: none !important;
   }
-  body, main {
+  
+  /* Make sure the main content takes full width */
+  body, main, #MainContent, .main-content {
     padding: 0 !important;
     margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
     background: #fff;
   }
 </style>
