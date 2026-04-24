@@ -89,14 +89,21 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>`;
 
         try {
-            await fetch('/api/send-email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    subject: 'Nieuwe quizvoltooiing – Wrinkles Quiz',
-                    html,
+            await Promise.all([
+                fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subject: 'Nieuwe quizvoltooiing – Wrinkles Quiz',
+                        html,
+                    }),
                 }),
-            });
+                fetch('/api/save-submission', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ answers: quizAnswers }),
+                }),
+            ]);
         } catch (err) {
             console.error('Email send failed:', err);
         }
