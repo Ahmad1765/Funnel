@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('input[data-answer]').forEach(input => {
         input.addEventListener('change', () => {
-            const question = input.getAttribute('data-label') || 'Frage';
+            const question = input.getAttribute('data-label') || 'Vraag';
             const answer   = input.getAttribute('data-answer') || input.value;
 
             if (input.type === 'radio') {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.getAttribute('data-variable') === 'eventDate' ||
             e.target.getAttribute('data-label') === 'Please select a date.'
         ) {
-            quizAnswers['Event Datum'] = e.target.value;
+            quizAnswers['Evenementdatum'] = e.target.value;
         }
     });
 
@@ -62,16 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px 36px;">
       <h1 style="margin:0 0 6px;color:#fff;font-size:22px;font-weight:700;">Quiz Completed</h1>
-      <p style="margin:0;color:#a0aec0;font-size:14px;">Wrinkles Quiz &mdash; neue Einreichung</p>
+      <p style="margin:0;color:#a0aec0;font-size:14px;">Wrinkles Quiz &mdash; nieuwe inzending</p>
     </div>
 
     <div style="padding:28px 36px 0;">
-      <p style="margin:0 0 20px;color:#444;font-size:15px;">Ein Nutzer hat den Quiz abgeschlossen. Hier sind die Antworten:</p>
+      <p style="margin:0 0 20px;color:#444;font-size:15px;">Een gebruiker heeft de quiz voltooid. Dit zijn de antwoorden:</p>
       <table style="width:100%;border-collapse:collapse;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;">
         <thead>
           <tr style="background:#f7f8fa;">
-            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Frage</th>
-            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Antwort</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Vraag</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Antwoord</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div style="padding:20px 36px 28px;margin-top:8px;">
       <p style="margin:0;color:#bbb;font-size:12px;">
-        Eingereicht am ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}
+        Ingediend op ${new Date().toLocaleString('nl-NL', { dateStyle: 'long', timeStyle: 'short' })}
       </p>
     </div>
 
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    subject: 'Neuer Quiz-Abschluss – Wrinkles Quiz',
+                    subject: 'Nieuwe quizvoltooiing – Wrinkles Quiz',
                     html,
                 }),
             });
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Final loader: email answers then go to Shopify store
                 setTimeout(async () => {
                     await sendQuizEmail();
-                    window.location.href = 'https://www.dr-melaxin.nl';
+                    window.location.href = 'https://www.dr-melaxin.nl/products/cemenrete-calcium-eyecare-routine';
                 }, timeout);
             } else {
                 setTimeout(() => goNext(), timeout);
@@ -242,4 +242,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(updateProgress, 100);
     checkLoader(sections[currentIndex]);
+
+    // ── Date picker (flatpickr) ───────────────────────────────────────
+    document.querySelectorAll('input.date-picker-input').forEach(input => {
+        flatpickr(input, {
+            dateFormat: 'd/m/Y',
+            locale: { firstDayOfWeek: 1 },
+            disableMobile: false,
+            allowInput: false,
+            onChange(selectedDates, dateStr) {
+                // Fire a native change event so engine.js tracking picks it up
+                input.value = dateStr;
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            },
+        });
+    });
 });

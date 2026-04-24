@@ -26,7 +26,7 @@ module.exports = async function handler(req, res) {
         await transporter.sendMail({
             from: `"Wrinkles Quiz" <${process.env.GMAIL_USER}>`,
             to: process.env.GMAIL_USER,
-            subject: subject || 'Neuer Quiz-Abschluss – Wrinkles Quiz',
+            subject: subject || 'Nieuwe quizvoltooiing – Wrinkles Quiz',
             html: html || `<pre>${message}</pre>`,
         });
 
