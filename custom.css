@@ -159,9 +159,10 @@ button[type="submit"]:hover,
 
 .multiple-choice-option:hover .option-content {
   transform: translateY(-2px);
-  background-color: #2C3E50 !important;
-  border-color: #2C3E50 !important;
+  background-color: #6e3254 !important;
+  border-color: #6e3254 !important;
   color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(139, 64, 105, 0.3) !important;
 }
 
 .multiple-choice-option:hover .option-content * {
@@ -172,9 +173,10 @@ button[type="submit"]:hover,
 .multiple-choice-option input[type="checkbox"]:checked ~ .option-content,
 .multiple-choice-option.selected .option-content,
 .multiple-choice-option[data-selected="true"] .option-content {
-  background-color: #2C3E50 !important;
-  border-color: #2C3E50 !important;
+  background-color: #8b4069 !important;
+  border-color: #8b4069 !important;
   color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(139, 64, 105, 0.2) !important;
 }
 
 .multiple-choice-option.selected .option-content *,
@@ -182,12 +184,19 @@ button[type="submit"]:hover,
   color: #ffffff !important;
 }
 
+.multiple-choice-option:active .option-content {
+  background-color: #5a2844 !important;
+  border-color: #5a2844 !important;
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(139, 64, 105, 0.3) !important;
+}
+
 .multiple-choice-option input[type="radio"],
 .multiple-choice-option input[type="checkbox"],
 .checkbox-selector .checkbox,
 .radio-selector .radio {
   cursor: pointer;
-  accent-color: #2C3E50;
+  accent-color: #8b4069;
 }
 
 /* ── Skip link ────────────────────────────────────────────────── */
