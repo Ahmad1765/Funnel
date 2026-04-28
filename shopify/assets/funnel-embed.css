@@ -1,0 +1,14 @@
+.funnel-embed-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.funnel-embed-wrapper iframe {
+  display: block;
+  width: 100%;
+  border: none;
+  transition: height 0.3s ease;
+}
