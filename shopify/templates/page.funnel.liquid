@@ -44,6 +44,10 @@
         if (e.data.type === 'funnel-step-change') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        // redirect from funnel completion
+        if (e.data.type === 'funnel-redirect' && e.data.url) {
+          window.top.location.href = e.data.url;
+        }
       });
     })();
   </script>

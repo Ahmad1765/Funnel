@@ -37,31 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── Email via Web3Forms ───────────────────────────────────────────
-    // Get your free access key at https://web3forms.com  (enter flyluckyfire@gmail.com)
-    const WEB3FORMS_KEY = 'https://jj4kky-c2.myshopify.com/pages/contact';
-
-    async function sendQuizEmail() {
-        const answersText = Object.entries(quizAnswers)
-            .map(([q, a]) => `${q}: ${a}`)
-            .join('\n');
-
-        try {
-            await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({
-                    access_key: WEB3FORMS_KEY,
-                    subject:    'Neuer Quiz-Abschluss – Wrinkles Quiz',
-                    from_name:  'Wrinkles Quiz',
-                    message:    `Ein Nutzer hat den Quiz abgeschlossen!\n\nAntworten:\n──────────\n${answersText}\n\nZeitstempel: ${new Date().toLocaleString('de-DE')}`,
-                }),
-            });
-        } catch (err) {
-            console.error('Email send failed:', err);
-        }
-    }
-
     // Initial state setup
     sections.forEach((sec, idx) => {
         if (idx !== currentIndex) {
@@ -91,9 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) {}
 
             if (action === 'redirect') {
-                // Final loader: email answers then go to Shopify store
-                setTimeout(async () => {
-                    await sendQuizEmail();
+                setTimeout(() => {
                     const redirectURL = 'https://jj4kky-c2.myshopify.com/';
                     if (window.parent !== window) {
                         window.parent.postMessage({ type: 'funnel-redirect', url: redirectURL }, '*');
