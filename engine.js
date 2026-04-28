@@ -141,7 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Final loader: email answers then go to Shopify store
                 setTimeout(async () => {
                     await sendQuizEmail();
-                    window.location.href = 'https://www.dr-melaxin.nl/products/cemenrete-calcium-eyecare-routine';
+                    const redirectURL = 'https://www.dr-melaxin.nl/products/cemenrete-calcium-eyecare-routine';
+                    if (window.parent !== window) {
+                        window.parent.postMessage({ type: 'funnel-redirect', url: redirectURL }, '*');
+                    } else {
+                        window.location.href = redirectURL;
+                    }
                 }, timeout);
             } else {
                 setTimeout(() => goNext(), timeout);

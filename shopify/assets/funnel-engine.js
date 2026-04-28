@@ -94,7 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Final loader: email answers then go to Shopify store
                 setTimeout(async () => {
                     await sendQuizEmail();
-                    window.location.href = 'https://jj4kky-c2.myshopify.com/';
+                    const redirectURL = 'https://jj4kky-c2.myshopify.com/';
+                    if (window.parent !== window) {
+                        window.parent.postMessage({ type: 'funnel-redirect', url: redirectURL }, '*');
+                    } else {
+                        window.location.href = redirectURL;
+                    }
                 }, timeout);
             } else {
                 setTimeout(() => goNext(), timeout);

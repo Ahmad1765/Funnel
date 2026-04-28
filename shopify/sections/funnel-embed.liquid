@@ -23,6 +23,9 @@
         iframe.style.height = event.data.height + 'px';
       }
     }
+    if (event.data && event.data.type === 'funnel-redirect' && event.data.url) {
+      window.top.location.href = event.data.url;
+    }
   });
 </script>
 
