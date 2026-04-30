@@ -279,14 +279,14 @@ section.visible {
   cannot resolve. Apply the variable directly to fix this.
 */
 .option-content.picture .image-container {
-  height: var(--image-height, 80px) !important;
+  height: 120px !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;
 }
 
 @media (max-width: 560px) {
   .option-content.picture .image-container {
-    height: var(--image-mobile-height, var(--image-height, 80px)) !important;
+    height: 100px !important;
   }
 }
 
