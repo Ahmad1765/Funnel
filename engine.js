@@ -190,12 +190,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress();
                 checkLoader(nextSec);
 
-                // Notify parent iframe to resize after transition is fully done
+                // Notify parent iframe to resize — measure section height, not full document,
+                // to avoid inflated values from Heyflow's min-height: 100vh on body/html.
                 if (window.parent !== window) {
-                    window.parent.postMessage(
-                        { type: 'funnel-resize', height: document.documentElement.scrollHeight },
-                        '*'
-                    );
+                    setTimeout(() => {
+                        window.parent.postMessage(
+                            { type: 'funnel-resize', height: nextSec.scrollHeight },
+                            '*'
+                        );
+                    }, 50);
                 }
 
                 isTransitioning = false;
@@ -254,6 +257,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(updateProgress, 100);
     checkLoader(sections[currentIndex]);
+
+    // Send initial resize so the parent iframe starts at the correct height
+    if (window.parent !== window) {
+        setTimeout(() => {
+            window.parent.postMessage(
+                { type: 'funnel-resize', height: sections[currentIndex].scrollHeight },
+                '*'
+            );
+        }, 100);
+    }
 
     // ── Date picker (flatpickr) ───────────────────────────────────────
     document.querySelectorAll('input.date-picker-input').forEach(input => {

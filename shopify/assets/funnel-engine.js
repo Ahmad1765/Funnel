@@ -116,6 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress();
                 checkLoader(nextSec);
 
+                if (window.parent !== window) {
+                    setTimeout(() => {
+                        window.parent.postMessage(
+                            { type: 'funnel-resize', height: nextSec.scrollHeight },
+                            '*'
+                        );
+                    }, 50);
+                }
+
                 isTransitioning = false;
             }, 300);
         }
@@ -172,4 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(updateProgress, 100);
     checkLoader(sections[currentIndex]);
+
+    if (window.parent !== window) {
+        setTimeout(() => {
+            window.parent.postMessage(
+                { type: 'funnel-resize', height: sections[currentIndex].scrollHeight },
+                '*'
+            );
+        }, 100);
+    }
 });
