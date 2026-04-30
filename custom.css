@@ -270,78 +270,17 @@ section.visible {
 }
  
  
-/* ── Fix for Picture Multiple Choice on Mobile & Desktop ── */
-/* Note: HeyFlow HTML exports may not include the .picture class — use :has() as well */
-.multiple-choice-option .option-content.picture,
-.multiple-choice-option .option-content:has(.image-container picture) {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  padding: 0 0 10px 0 !important;
-  overflow: hidden !important;
-  min-height: 140px !important;
-  position: relative !important;
-}
-
-.multiple-choice-option .option-content.picture .image-container,
-.multiple-choice-option .option-content:has(.image-container picture) .image-container {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 1 / 1 !important;
-  display: block !important;
-  overflow: hidden !important;
-  margin-bottom: 5px !important;
-  border-radius: 8px 8px 0 0 !important;
-}
-
-.multiple-choice-option .option-content.picture .image-container picture,
-.multiple-choice-option .image-container picture {
+/* ── Fix picture images — make them fill their 40px container like the emoji does ── */
+.option-content .image-container picture {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
 }
 
-.multiple-choice-option .option-content.picture .image-container img,
-.multiple-choice-option .image-container img {
+.option-content .image-container picture img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   display: block !important;
-}
-
-@media (max-width: 560px) {
-  .multiple-choice-option .option-content.picture .image-container,
-  .multiple-choice-option .option-content:has(.image-container picture) .image-container {
-    height: auto !important;
-    aspect-ratio: 1 / 1 !important;
-  }
-}
-
-.multiple-choice-option .option-content.picture .label-container,
-.multiple-choice-option .option-content:has(.image-container picture) .label-container {
-  width: 100% !important;
-  text-align: center !important;
-  padding: 0 5px !important;
-}
-
-.multiple-choice-option .option-content.picture .label-container .label span,
-.multiple-choice-option .option-content:has(.image-container picture) .label-container .label span {
-  color: #000000 !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  display: block !important;
-}
-
-.multiple-choice-option input[type="radio"]:checked ~ .option-content.picture .label-container .label span,
-.multiple-choice-option input[type="checkbox"]:checked ~ .option-content.picture .label-container .label span,
-.multiple-choice-option input[type="radio"]:checked ~ .option-content:has(.image-container picture) .label-container .label span,
-.multiple-choice-option input[type="checkbox"]:checked ~ .option-content:has(.image-container picture) .label-container .label span {
-  color: #ffffff !important;
-}
-
-.multiple-choice-option .option-content.picture .selector-container,
-.multiple-choice-option .option-content:has(.image-container picture) .selector-container {
-  display: none !important;
 }
 

@@ -271,14 +271,15 @@ body, main, #MainContent, .main-content {
   margin: 0 !important;
 }
 
-/* Fix for picture multiple-choice icons (Shopify img exports include width=1 height=1) */
-.multiple-choice-option .image-container picture {
+/* Fix picture images — make them fill their 40px container like the emoji does */
+/* Also overrides width=1 height=1 HTML attributes present in Shopify exports */
+.option-content .image-container picture {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
 }
 
-.multiple-choice-option .image-container img {
+.option-content .image-container picture img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
