@@ -319,3 +319,8 @@ body, main, #MainContent, .main-content {
   object-fit: cover !important;
   object-position: center !important;
 }
+
+/* Label text black when option is unselected */
+.multiple-choice-option input:not(:checked) + .option-content.picture .label-container .label {
+  color: #000000 !important;
+}
