@@ -270,3 +270,17 @@ body, main, #MainContent, .main-content {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* Fix for picture multiple-choice icons (Shopify img exports include width=1 height=1) */
+.multiple-choice-option .image-container picture {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.multiple-choice-option .image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
