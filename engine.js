@@ -181,6 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 nextSec.style.display = 'block';
                 nextSec.classList.add('visible');
 
+                // Force lazy images to load — they won't trigger naturally when
+                // revealed from display:none (especially in iframes / Safari).
+                nextSec.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                    img.loading = 'eager';
+                    if (!img.src && img.dataset.src) img.src = img.dataset.src;
+                });
+
                 void nextSec.offsetWidth;
 
                 nextSec.style.opacity = '1';
