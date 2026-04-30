@@ -291,12 +291,21 @@ body, main, #MainContent, .main-content {
   }
 }
 
-/* Prevent flex from squishing inline icon containers */
+/*
+  Inline icon cards (non-picture, flex-row layout):
+  Without an explicit width, iOS Safari resolves picture { width:100% }
+  against the parent flex container (full card width) instead of the
+  image-container — causing the image to stretch across the whole card.
+  Fix: give the container an explicit square size.
+*/
 .option-content:not(.picture) .image-container {
+  width: 40px !important;
+  height: 40px !important;
   flex-shrink: 0 !important;
+  overflow: hidden !important;
 }
 
-/* Fill the container — works now that parent has explicit pixel height */
+/* Fill the container — works now that parent has explicit pixel dimensions */
 .option-content .image-container picture {
   display: block !important;
   width: 100% !important;
