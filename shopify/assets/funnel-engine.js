@@ -88,6 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // ── iframe height helpers ─────────────────────────────────────────
+    let _heightObserver = null;
+
+    const sendHeight = (sec) => {
+        if (window.parent === window) return;
+        window.parent.postMessage({ type: 'funnel-resize', height: sec.scrollHeight }, '*');
+    };
+
+    const watchSection = (sec) => {
+        if (_heightObserver) _heightObserver.disconnect();
+        _heightObserver = new ResizeObserver(() => sendHeight(sec));
+        _heightObserver.observe(sec);
+        sec.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', () => sendHeight(sec), { once: true });
+        });
+    };
+
     const goToIndex = (newIndex) => {
         if (isTransitioning) return;
         if (newIndex >= 0 && newIndex < sections.length) {
@@ -116,14 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress();
                 checkLoader(nextSec);
 
-                if (window.parent !== window) {
-                    setTimeout(() => {
-                        window.parent.postMessage(
-                            { type: 'funnel-resize', height: nextSec.scrollHeight },
-                            '*'
-                        );
-                    }, 50);
-                }
+                setTimeout(() => {
+                    sendHeight(nextSec);
+                    watchSection(nextSec);
+                }, 50);
 
                 isTransitioning = false;
             }, 300);
@@ -182,12 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(updateProgress, 100);
     checkLoader(sections[currentIndex]);
 
-    if (window.parent !== window) {
-        setTimeout(() => {
-            window.parent.postMessage(
-                { type: 'funnel-resize', height: sections[currentIndex].scrollHeight },
-                '*'
-            );
-        }, 100);
-    }
+    setTimeout(() => {
+        sendHeight(sections[currentIndex]);
+        watchSection(sections[currentIndex]);
+    }, 100);
+    window.addEventListener('load', () => sendHeight(sections[currentIndex]));
 });

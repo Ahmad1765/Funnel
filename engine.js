@@ -162,6 +162,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // ── iframe height helpers ─────────────────────────────────────────
+    let _heightObserver = null;
+
+    const sendHeight = (sec) => {
+        if (window.parent === window) return;
+        window.parent.postMessage({ type: 'funnel-resize', height: sec.scrollHeight }, '*');
+    };
+
+    const watchSection = (sec) => {
+        if (_heightObserver) _heightObserver.disconnect();
+        _heightObserver = new ResizeObserver(() => sendHeight(sec));
+        _heightObserver.observe(sec);
+        sec.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', () => sendHeight(sec), { once: true });
+        });
+    };
+
     const goToIndex = (newIndex) => {
         if (isTransitioning) return;
         if (newIndex >= 0 && newIndex < sections.length) {
@@ -197,16 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress();
                 checkLoader(nextSec);
 
-                // Notify parent iframe to resize — measure section height, not full document,
-                // to avoid inflated values from Heyflow's min-height: 100vh on body/html.
-                if (window.parent !== window) {
-                    setTimeout(() => {
-                        window.parent.postMessage(
-                            { type: 'funnel-resize', height: nextSec.scrollHeight },
-                            '*'
-                        );
-                    }, 50);
-                }
+                // Notify parent iframe to resize and watch for late-loading content.
+                setTimeout(() => {
+                    sendHeight(nextSec);
+                    watchSection(nextSec);
+                }, 50);
 
                 isTransitioning = false;
             }, 300);
@@ -265,15 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(updateProgress, 100);
     checkLoader(sections[currentIndex]);
 
-    // Send initial resize so the parent iframe starts at the correct height
-    if (window.parent !== window) {
-        setTimeout(() => {
-            window.parent.postMessage(
-                { type: 'funnel-resize', height: sections[currentIndex].scrollHeight },
-                '*'
-            );
-        }, 100);
-    }
+    // Send initial resize and watch for height changes (images loading, etc.)
+    setTimeout(() => {
+        sendHeight(sections[currentIndex]);
+        watchSection(sections[currentIndex]);
+    }, 100);
+    window.addEventListener('load', () => sendHeight(sections[currentIndex]));
 
     // ── Date picker (flatpickr) ───────────────────────────────────────
     document.querySelectorAll('input.date-picker-input').forEach(input => {
