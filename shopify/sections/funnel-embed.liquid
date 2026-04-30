@@ -18,7 +18,7 @@
 <script>
   window.addEventListener('message', function (event) {
     if (event.data && event.data.type === 'funnel-resize') {
-      var iframe = document.getElementById('funnel-iframe');
+      var iframe = document.getElementById('funnel-iframe') || document.getElementById('funnel-frame');
       if (iframe) {
         iframe.style.height = event.data.height + 'px';
       }

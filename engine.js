@@ -167,7 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sendHeight = (sec) => {
         if (window.parent === window) return;
-        window.parent.postMessage({ type: 'funnel-resize', height: sec.scrollHeight }, '*');
+        // Temporarily free html from height:100% so scrollHeight isn't clamped to iframe size
+        const html = document.documentElement;
+        const prev = html.style.height;
+        html.style.height = 'auto';
+        void html.offsetHeight; // force reflow
+        const height = Math.max(sec.scrollHeight, document.body.scrollHeight, document.body.offsetHeight);
+        html.style.height = prev;
+        window.parent.postMessage({ type: 'funnel-resize', height }, '*');
     };
 
     const watchSection = (sec) => {

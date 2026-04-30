@@ -93,7 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sendHeight = (sec) => {
         if (window.parent === window) return;
-        window.parent.postMessage({ type: 'funnel-resize', height: sec.scrollHeight }, '*');
+        const html = document.documentElement;
+        const prev = html.style.height;
+        html.style.height = 'auto';
+        void html.offsetHeight;
+        const height = Math.max(sec.scrollHeight, document.body.scrollHeight, document.body.offsetHeight);
+        html.style.height = prev;
+        window.parent.postMessage({ type: 'funnel-resize', height }, '*');
     };
 
     const watchSection = (sec) => {
