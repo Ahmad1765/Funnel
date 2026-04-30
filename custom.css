@@ -268,3 +268,62 @@ section.visible {
 .flatpickr-calendar {
   z-index: 99999 !important;
 }
+ 
+ 
+/* -- Fix for Picture Multiple Choice on Mobile ---------------- */
+.multiple-choice-option .option-content.picture {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 15px 10px !important;
+  min-height: 140px !important;
+  position: relative !important;
+}
+
+.multiple-choice-option .option-content.picture .image-container {
+  width: 100% !important;
+  height: 80px !important; /* Fixed height for image area */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: visible !important;
+  margin-bottom: 10px !important;
+}
+
+.multiple-choice-option .option-content.picture .image-container picture {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.multiple-choice-option .option-content.picture .image-container img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.multiple-choice-option .option-content.picture .label-container {
+  margin-top: 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.multiple-choice-option .option-content.picture .label-container .label span {
+  color: #000000 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  display: block !important;
+}
+
+.multiple-choice-option input[type="radio"]:checked ~ .option-content.picture .label-container .label span,
+.multiple-choice-option input[type="checkbox"]:checked ~ .option-content.picture .label-container .label span {
+  color: #ffffff !important;
+}
+
+.multiple-choice-option .option-content.picture .selector-container { position: absolute !important; top: 10px !important; right: 10px !important; z-index: 2 !important; }
+
