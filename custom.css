@@ -284,18 +284,16 @@ section.visible {
 
 .multiple-choice-option .option-content.picture .image-container {
   width: 100% !important;
-  height: 120px !important; /* Fixed height for image area to ensure they look like squares */
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  height: auto !important; 
+  aspect-ratio: 1 / 1 !important; /* Force a perfect square */
+  display: block !important; /* Block layout prevents iOS flex stretching */
+  overflow: hidden !important;
   margin-bottom: 5px !important;
   border-radius: 8px 8px 0 0 !important;
 }
 
 .multiple-choice-option .option-content.picture .image-container picture {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  display: block !important;
   width: 100% !important;
   height: 100% !important;
 }
@@ -304,12 +302,14 @@ section.visible {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+  display: block !important;
 }
 
-/* On mobile, adjust the container height slightly if needed */
+/* Remove fixed mobile height since we use aspect ratio now */
 @media (max-width: 560px) {
   .multiple-choice-option .option-content.picture .image-container {
-    height: var(--image-mobile-height, 100px) !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
   }
 }
 
