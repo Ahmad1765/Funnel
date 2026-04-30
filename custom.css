@@ -270,7 +270,32 @@ section.visible {
 }
  
  
-/* ── Fix picture images — make them fill their 40px container like the emoji does ── */
+/* ── iOS Safari fix: picture option card images ──────────────── */
+/*
+  flow.css overrides .image-container to height:auto for picture cards.
+  The CSS variable --image-height (80px) is only picked up by the
+  .image-custom-height selector which is absent in the HTML, so the
+  container collapses on iOS Safari and height:100% on picture/img
+  cannot resolve. Apply the variable directly to fix this.
+*/
+.option-content.picture .image-container {
+  height: var(--image-height, 80px) !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 560px) {
+  .option-content.picture .image-container {
+    height: var(--image-mobile-height, var(--image-height, 80px)) !important;
+  }
+}
+
+/* Prevent flex from squishing inline icon containers */
+.option-content:not(.picture) .image-container {
+  flex-shrink: 0 !important;
+}
+
+/* Fill the container — works now that parent has explicit pixel height */
 .option-content .image-container picture {
   display: block !important;
   width: 100% !important;
@@ -278,9 +303,10 @@ section.visible {
 }
 
 .option-content .image-container picture img {
+  display: block !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  display: block !important;
+  object-position: center !important;
 }
 
