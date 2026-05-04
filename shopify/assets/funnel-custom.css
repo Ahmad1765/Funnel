@@ -1,0 +1,326 @@
+/* ── Seranova Beauty Brand Variables ───────────────────────────── */
+:root {
+  --primary: #2C3E50;
+  --secondary: #B22222;
+  --accent-color: #2C3E50;
+  --color-pageBackgroundColor: #EDF2F6;
+  --kit-Font-Primary: "Montserrat", sans-serif;
+  --kit-Font-Secondary: "Montserrat", sans-serif;
+  --kit-Font-Tetriary: "Montserrat", sans-serif;
+  --progress-color: #2C3E50;
+  --progress-background-color: #E0E0E0;
+}
+
+/* ── Google Font ─────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap");
+
+/* ── Global font ─────────────────────────────────────────────── */
+body,
+input,
+textarea,
+select,
+button {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+/* ── Page background ─────────────────────────────────────────── */
+body,
+[data-id="heyflow-main"],
+form[data-id="heyflow-form"] {
+  background-color: #EDF2F6 !important;
+  color: #000000 !important;
+}
+
+/* ── Headings ─────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+header,
+#template-header {
+  background-color: #F8F9FA !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ── Progress bar ─────────────────────────────────────────────── */
+.progress-bar {
+  background-color: #E0E0E0 !important;
+  border-radius: 0 !important;
+  height: 4px !important;
+}
+
+.progress-bar-active {
+  background-color: #2C3E50 !important;
+  border-radius: 0 !important;
+  height: 4px !important;
+  transition: width 0.5s ease-in-out;
+}
+
+/* ── Multiple choice options ─────────────────────────────────── */
+.multiple-choice-option {
+  cursor: pointer;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.multiple-choice-option .option-content {
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s !important;
+}
+
+.multiple-choice-option:hover .option-content {
+  transform: translateY(-2px);
+  background-color: #2C3E50 !important;
+  border-color: #2C3E50 !important;
+  color: #ffffff !important;
+}
+
+.multiple-choice-option:hover .option-content * {
+  color: #ffffff !important;
+}
+
+.multiple-choice-option input[type="radio"],
+.multiple-choice-option input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #2C3E50;
+}
+
+.multiple-choice-option input[type="radio"]:checked ~ .option-content,
+.multiple-choice-option input[type="checkbox"]:checked ~ .option-content,
+.multiple-choice-option.selected .option-content,
+.multiple-choice-option[data-selected="true"] .option-content {
+  background-color: #2C3E50 !important;
+  border-color: #2C3E50 !important;
+  color: #ffffff !important;
+}
+
+.multiple-choice-option.selected .option-content *,
+.multiple-choice-option[data-selected="true"] .option-content * {
+  color: #ffffff !important;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+button[type="submit"],
+.heyflow-cta,
+[data-blocktype="button"] button,
+.button-block button {
+  background-color: #2C3E50 !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 600 !important;
+  border: none !important;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2) !important;
+}
+
+button[type="submit"]:hover,
+.heyflow-cta:hover,
+[data-blocktype="button"] button:hover,
+.button-block button:hover {
+  background-color: #1a252f !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(44, 62, 80, 0.3) !important;
+}
+
+.generic-button.continue {
+  background-color: #2C3E50 !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  border: none !important;
+  transition: all 0.25s ease !important;
+}
+
+.generic-button.continue:hover {
+  background-color: #1a252f !important;
+  transform: translateY(-2px) !important;
+}
+
+.generic-button.continue svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.generic-button.continue svg path,
+.generic-button.continue svg polyline,
+.generic-button.continue svg line {
+  stroke: #ffffff !important;
+}
+
+/* ── Links / skip ────────────────────────────────────────────── */
+a,
+.generic-button.link .label-container span {
+  color: #2C3E50 !important;
+  transition: color 0.2s ease;
+}
+
+a:hover,
+.generic-button.link:hover .label-container span {
+  color: #1a252f !important;
+}
+
+.generic-button.link {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Input fields ─────────────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  border-radius: 8px !important;
+  border: 1px solid #000000 !important;
+  font-family: "Montserrat", sans-serif !important;
+  padding: 12px 14px !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s ease !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  border-color: #2C3E50 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.15) !important;
+}
+
+/* ── Section transitions ─────────────────────────────────────── */
+section {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  position: relative;
+  z-index: 0;
+}
+
+section.visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* ── Date picker (flatpickr) ─────────────────────────────────── */
+.flatpickr-calendar {
+  z-index: 99999 !important;
+}
+
+/* ── Disable Shopify Theme Chrome ────────────────────────────── */
+/* Hide all Shopify sections (headers, footers, blocks) that do not contain the funnel */
+.shopify-section:not(:has([data-id="heyflow-main"])),
+.shopify-section-group-header-group,
+.shopify-section-group-footer-group {
+  display: none !important;
+}
+
+/* Fallback hiding for common Shopify theme elements and generic tags */
+#shopify-section-header,
+#shopify-section-footer,
+#shopify-section-announcement-bar,
+[id*="announcement-bar"],
+[id*="__header"],
+[id*="__footer"],
+.site-header,
+.site-footer,
+.announcement-bar,
+.breadcrumbs,
+.page-header {
+  display: none !important;
+}
+
+header:not(:has(#template-header)), 
+footer:not(:has([data-id="heyflow-main"])) {
+  display: none !important;
+}
+
+/* Hide the main page title (e.g. "Dr.Melaxin") inside the active section */
+.main-page-title,
+.page-title,
+.title-wrapper,
+h1.title,
+.section-header {
+  display: none !important;
+}
+
+/* Ensure full width and zero padding for main wrappers and Shopify containers */
+body, main, #MainContent, .main-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Remove max-width constraints from the theme wrapper containing the funnel */
+.shopify-section:has([data-id="heyflow-main"]) .page-width,
+.shopify-section:has([data-id="heyflow-main"]) .container,
+.shopify-section:has([data-id="heyflow-main"]) .wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ── iOS Safari fix: picture option card images ──────────────── */
+/*
+  flow.css overrides .image-container to height:auto for picture cards.
+  The CSS variable --image-height (80px) is only picked up by the
+  .image-custom-height selector which is absent in the HTML, so the
+  container collapses on iOS Safari and height:100% on picture/img
+  cannot resolve. Apply the variable directly to fix this.
+*/
+.option-content.picture .image-container {
+  height: 120px !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 560px) {
+  .option-content.picture .image-container {
+    height: 100px !important;
+  }
+}
+
+/*
+  Inline icon cards (non-picture, flex-row layout):
+  Without an explicit width, iOS Safari resolves picture { width:100% }
+  against the parent flex container (full card width) instead of the
+  image-container — causing the image to stretch across the whole card.
+  Fix: give the container an explicit square size.
+*/
+.option-content:not(.picture) .image-container {
+  width: 40px !important;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Fill the container — works now that parent has explicit pixel dimensions */
+.option-content .image-container picture {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.option-content .image-container picture img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Label text black when option is unselected */
+.multiple-choice-option input:not(:checked) + .option-content.picture .label-container .label {
+  color: #000000 !important;
+}

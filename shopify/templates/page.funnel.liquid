@@ -1,0 +1,55 @@
+{%- layout none -%}
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+    }
+    #funnel-frame {
+      display: block;
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe
+    id="funnel-frame"
+    src="{{ page.metafields.custom.funnel_url | default: 'https://funnel-eight-tau.vercel.app/' }}"
+    allowfullscreen
+    allow="payment; autoplay; camera; microphone"
+  ></iframe>
+
+  <script>
+    (function () {
+      var frame = document.getElementById('funnel-frame');
+
+      window.addEventListener('message', function (e) {
+        if (!e.data) return;
+        // resize messages from funnel
+        if (e.data.type === 'funnel-resize' && e.data.height) {
+          frame.style.height = e.data.height + 'px';
+          document.body.style.overflow = 'auto';
+        }
+        // scroll-to-top on step change
+        if (e.data.type === 'funnel-step-change') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // redirect from funnel completion
+        if (e.data.type === 'funnel-redirect' && e.data.url) {
+          window.top.location.href = e.data.url;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

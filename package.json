@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "nodemailer": "^8.0.5",
+    "shopify": "^3.93.2",
+    "@supabase/supabase-js": "^2.49.4"
+  }
+}
+
