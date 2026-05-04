@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkLoader = (sec) => {
         const loader = sec.querySelector('[data-blocktype="loader"]');
         if (loader) {
-            let timeout = 2000;
+            let timeout = 0;
             let action  = 'next';
 
             try {
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 50);
 
                 isTransitioning = false;
-            }, 300);
+            }, 50);
         }
     };
 
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             if (e.target.checked) {
-                setTimeout(goNext, 350);
+                setTimeout(goNext, 50);
             }
         });
     });

@@ -37,77 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── Email via Vercel serverless + Gmail SMTP ─────────────────────
-    async function sendQuizEmail() {
-        // Filter raw internal IDs, keep all other entries as-is (no merging —
-        // numbered labels like "Question?2" are different questions, not duplicates)
-        const entries = Object.entries(quizAnswers).filter(([q, a]) =>
-            a && !/^[a-z]{2,3}-[0-9a-f]{6,}$/i.test(q) && !/\[format\]/.test(q)
-        );
 
-        // Strip trailing digits from label for display only
-        const rows = entries.map(([q, a]) => {
-            const label = q.replace(/\s*\d+$/, '').trim();
-            return `
-                <tr>
-                    <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#555;font-size:14px;width:48%;vertical-align:top;line-height:1.5;">${label}</td>
-                    <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;color:#111;font-size:14px;font-weight:600;vertical-align:top;line-height:1.5;">${a}</td>
-                </tr>`;
-        }).join('');
-
-        const html = `<!DOCTYPE html>
-<html>
-<body style="margin:0;padding:24px;background:#f4f4f5;font-family:'Segoe UI',Arial,sans-serif;">
-  <div style="max-width:620px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-
-    <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px 36px;">
-      <h1 style="margin:0 0 6px;color:#fff;font-size:22px;font-weight:700;">Quiz Completed</h1>
-      <p style="margin:0;color:#a0aec0;font-size:14px;">Wrinkles Quiz &mdash; nieuwe inzending</p>
-    </div>
-
-    <div style="padding:28px 36px 0;">
-      <p style="margin:0 0 20px;color:#444;font-size:15px;">Een gebruiker heeft de quiz voltooid. Dit zijn de antwoorden:</p>
-      <table style="width:100%;border-collapse:collapse;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;">
-        <thead>
-          <tr style="background:#f7f8fa;">
-            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Vraag</th>
-            <th style="padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:#888;letter-spacing:1px;font-weight:600;border-bottom:1px solid #e8e8e8;">Antwoord</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-
-    <div style="padding:20px 36px 28px;margin-top:8px;">
-      <p style="margin:0;color:#bbb;font-size:12px;">
-        Ingediend op ${new Date().toLocaleString('nl-NL', { dateStyle: 'long', timeStyle: 'short' })}
-      </p>
-    </div>
-
-  </div>
-</body>
-</html>`;
-
-        try {
-            await Promise.all([
-                fetch('/api/send-email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        subject: 'Nieuwe quizvoltooiing – Wrinkles Quiz',
-                        html,
-                    }),
-                }),
-                fetch('/api/save-submission', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ answers: quizAnswers }),
-                }),
-            ]);
-        } catch (err) {
-            console.error('Email send failed:', err);
-        }
-    }
 
     // Initial state setup
     sections.forEach((sec, idx) => {
@@ -125,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkLoader = (sec) => {
         const loader = sec.querySelector('[data-blocktype="loader"]');
         if (loader) {
-            let timeout = 2000;
+            let timeout = 0;
             let action  = 'next';
 
             try {
@@ -139,8 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (action === 'redirect') {
                 // Final loader: email answers then go to Shopify store
-                setTimeout(async () => {
-                    await sendQuizEmail();
+                setTimeout(() => {
                     const redirectURL = 'https://www.dr-melaxin.nl/products/cemenrete-calcium-eyecare-routine';
                     if (window.parent !== window) {
                         window.parent.postMessage({ type: 'funnel-redirect', url: redirectURL }, '*');
@@ -228,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 50);
 
                 isTransitioning = false;
-            }, 300);
+            }, 50);
         }
     };
 
@@ -238,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             if (e.target.checked) {
-                setTimeout(goNext, 350);
+                setTimeout(goNext, 50);
             }
         });
     });
