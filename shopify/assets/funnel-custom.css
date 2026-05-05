@@ -3,7 +3,7 @@
   --primary: #2C3E50;
   --secondary: #B22222;
   --accent-color: #2C3E50;
-  --color-pageBackgroundColor: #EDF2F6;
+  --color-pageBackgroundColor: #f4edf6;
   --kit-Font-Primary: "Montserrat", sans-serif;
   --kit-Font-Secondary: "Montserrat", sans-serif;
   --kit-Font-Tetriary: "Montserrat", sans-serif;
@@ -27,7 +27,7 @@ button {
 body,
 [data-id="heyflow-main"],
 form[data-id="heyflow-form"] {
-  background-color: #EDF2F6 !important;
+  background-color: #f4edf6 !important;
   color: #000000 !important;
 }
 
